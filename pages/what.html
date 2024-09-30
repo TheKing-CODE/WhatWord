@@ -12,17 +12,26 @@
     <script src='script/what.js'></script>
 </head>
 <body>
-    <main>
+    
+    <main>        
+    <header>
         <div class="time-containe" id="time-containe">
             <span>Time: 03:00</span>
         </div>
+        <div class="dados-atuais" id="dados-atuais">
+            <span class="acertos-parcial" id="acertos-parcial">ACERTOS: <span class="qnt-acertos" id="qnt-acertos">0</span></span>
+            <span class="pontuacao-parcial" id="pontuacao-parcial">PONTUAÇÃO PARCIAL: <span class="qnt-pontuacao" id="qnt-pontuacao">0</span></span>
+        </div>
+    </header>
+
         <div class="dados" id="dados">
             <p>Dica: <span class="dica-palavra" id="dica-palavra">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dictum nisl vitae bibendum porta."</span></p>
             <p class="palavra-embaralhada" id="palavra-embaralhada" style="margin-top: 10px; background-color: #269ab7; padding: 10px; border-radius: 25px;">"Palavra"</p>
             <input class="respota-texto" id="respota-texto" placeholder="Qual a palavra?" type="text" style="margin-top: 10px;"/><br/>
             <div class="buttons-campo" id="buttons-campo">
                 <input class="respota-texto" id="respota-texto" value="Enviar" type="button" style="background-color: #4CAF50; color: aliceblue;"/>
-                <input class="respota-texto" id="respota-texto" value="Limpar" type="button" style="background-color: #ff4242; color: aliceblue;"/>
+                <input class="limpar-texto" id="limpar-texto" value="Limpar" type="button" style="background-color: #ff4242; color: aliceblue;"/>
+                <input class="limpar-texto" id="limpar-texto" value="Pular" type="button" style="background-color: #ff370f; color: aliceblue;"/>
             </div>
         </div>
         <span style="text-align: center; margin-top: 10px; color: aliceblue;">Developer by Allan</span>
