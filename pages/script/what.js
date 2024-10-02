@@ -4,54 +4,95 @@ $(function(){
 	var palavra = getPalavraAletoria();
 	var qntAcertos = 0;
 	var qntPalavrasPuladas = 0;
+	var qntPalavraUsadas = 0;
+	var qntPalavrasErradas = 0;
 
 	preencherDadosPalavras(palavra);
+	qntPalavraUsadas++;
+
+	console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
 	
 	$('#pular-palavra').click(function(){		
-		qntPalavraUsadas = parseInt(getQntPalavrasUtilizadas());
-		console.log(qntPalavraUsadas);
+		qntPalavraUsadas = parseInt(getQntPalavrasUtilizadas());		
 		if(qntPalavraUsadas < 9){
 			palavra = getPalavraAletoria();				
 			preencherDadosPalavras(palavra);
 			qntPalavrasPuladas++;	
+			qntPalavraUsadas++;
 			$('#qnt-pontuacao').text(calcPontuacao());
+			console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
 		}else{
-			$.notify('Pronto');
+			mostraModalFinal();
 		}
+
 	})
 
 	$('#limpar-texto').click(function(){
 		$('#respota-texto').val(' ');		
 	});
 
-	$('#resposta-texto').click(function(){
+	$('#enviar-resposta').click(function(){
 		let palavraDigitada = $('#respota-texto').val();
-		palavraDigitada = palavraDigitada.trim();
-		let qntPalavraUsadas = getQntPalavrasUtilizadas();
-		if(qntPalavraUsadas <= 10){
-			if(palavra[0] == palavraDigitada){
-				$.notify("Certo", "success");
-				palavra.splice(0,palavra.length);
-				palavra = getPalavraAletoria();
-				preencherDadosPalavras(palavra);
+		palavraDigitada = palavraDigitada.trim(palavraDigitada);
+		if(qntPalavraUsadas == 10){
+			if(palavraDigitada == palavra[0]){
+				$.notify('Acertou!', 'success');
+				qntAcertos++;	
+				$('#qnt-acertos').text(qntAcertos);
+				$('#qnt-pontuacao').text(calcPontuacao());
+				mostraModalFinal();
+			}else
+			{
+				$.notify('Errou', 'error');
+				qntPalavrasErradas++;
+				$('#qnt-pontuacao').text(calcPontuacao());
+				mostraModalFinal();
+			}	
+		}else{
+			if(palavraDigitada == palavra[0]){
+				$.notify('Acertou!', 'success');
+				$('#respota-texto').val(' ');
 				qntAcertos++;
 				$('#qnt-acertos').text(qntAcertos);
-				$('#respota-texto').val(' ');
 				$('#qnt-pontuacao').text(calcPontuacao());
+				palavra = getPalavraAletoria();
+				let palavra_ = palavra;
+				preencherDadosPalavras(palavra_);
+				qntPalavraUsadas++;
 			}else{
-				$.notify('Palavra errada', 'error');
+				$.notify('Errou', 'error');
+				$('#respota-texto').val(' ');
+				qntPalavrasErradas++;
+				$('#qnt-pontuacao').text(calcPontuacao());
+				palavra = getPalavraAletoria();
+				let palavra_ = palavra;
+				preencherDadosPalavras(palavra_);
+				qntPalavraUsadas++;
 			}
-		}else{
-			$.notify('erro2');
-		}	
+		}
+		console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
 	});
+
+	$('#respota-texto').on('keypress', function(e) {
+        if (e.which === 13) { // 13 é o código da tecla Enter        
+        	$('#enviar-resposta').click();    
+        }
+    });	
 
 	function calcPontuacao(){	
 		let qntAcertos_ = qntAcertos;
-		var pontuação = qntAcertos_*10 - (qntPalavrasPuladas*2);
+		var pontuação = qntAcertos_*10 - (qntPalavrasPuladas*2) - (qntPalavrasErradas*0.5);
 		return pontuação;
 	}
+
+	function mostraModalFinal(){	
+		$('#resultado-pontuacao').text(calcPontuacao());
+		$('#resultado-qnt-acertos').text(qntAcertos);
+		$('#modal-resultado').click();
+	}
 })
+
+
 
 
 	const PalavraUm = ['hogwarts','Escola de magia da série "Harry Potter"', 'war-ts-hog'];
@@ -85,16 +126,20 @@ function numeroAleatorioEntre(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 };
 
-function getPalavraAletoria(){
-	var numeroSelecionado;	
-		for (var i = 0; i < 10; i++) {
-			numeroSelecionado = numeroAleatorioEntre(0,10);
-			if(!numerosUtilizados.includes(numeroSelecionado)){
-				numerosUtilizados.push(numeroSelecionado);		
-				return palavrasCombinadas[numeroSelecionado];
-			}
-		}
-};
+function getPalavraAletoria() {
+    let numeroSelecionado;
+    do {
+        numeroSelecionado = numeroAleatorioEntre(0, palavrasCombinadas.length);
+    } while (numerosUtilizados.includes(numeroSelecionado) && numerosUtilizados.length < palavrasCombinadas.length);
+
+    if (numerosUtilizados.length < palavrasCombinadas.length) {
+        numerosUtilizados.push(numeroSelecionado);
+        console.log('Numero Utilizado '+ numeroSelecionado);
+        return palavrasCombinadas[numeroSelecionado];
+    } else {
+        return null; // Se não houver mais palavras disponíveis
+    }
+}
 
 function preencherDadosPalavras(palavra_){
 	$('#palavra-embaralhada').text(palavra_[2]);
@@ -104,6 +149,8 @@ function preencherDadosPalavras(palavra_){
 function getQntPalavrasUtilizadas(){
 	return numerosUtilizados.length;
 }
+
+
 
 
 
