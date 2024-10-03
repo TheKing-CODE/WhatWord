@@ -33,13 +33,12 @@ $(function(){
 
 	$('#enviar-resposta').click(function(){
 		let palavraDigitada = $('#respota-texto').val();
-		let palavraDigitadaSemEspacos = palavraDigitada.trim(); // Remove todos os espaços
-		const palavraDigitadaFinal = palavraDigitadaSemEspacos.toLowerCase(); // Converte para minúsculas
-		console.log(palavraDigitadaFinal);
-		console.log(palavra[0]);
+		palavraDigitada = palavraDigitada.trim();
+		console.log(palavraDigitada);
+		
 
 		if(qntPalavraUsadas == 10){
-			if(palavraDigitadaFinal === palavra[0]){
+			if(palavraFinal === palavra[0]){
 				$.notify('Acertou!', 'success');
 				qntAcertos++;	
 				$('#qnt-acertos').text(qntAcertos);
