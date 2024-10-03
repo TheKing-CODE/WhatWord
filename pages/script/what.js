@@ -10,7 +10,7 @@ $(function(){
 	preencherDadosPalavras(palavra);
 	qntPalavraUsadas++;
 
-	console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
+	//console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
 	
 	$('#pular-palavra').click(function(){		
 		qntPalavraUsadas = parseInt(getQntPalavrasUtilizadas());		
@@ -20,7 +20,7 @@ $(function(){
 			qntPalavrasPuladas++;	
 			qntPalavraUsadas++;
 			$('#qnt-pontuacao').text(calcPontuacao());
-			console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
+			//console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
 		}else{
 			mostraModalFinal();
 		}
@@ -33,9 +33,13 @@ $(function(){
 
 	$('#enviar-resposta').click(function(){
 		let palavraDigitada = $('#respota-texto').val();
-		palavraDigitada = palavraDigitada.trim(palavraDigitada);
+		let palavraDigitadaSemEspacos = palavraDigitada.trim(); // Remove todos os espaços
+		const palavraDigitadaFinal = palavraDigitadaSemEspacos.toLowerCase(); // Converte para minúsculas
+		console.log(palavraDigitadaFinal);
+		console.log(palavra[0]);
+
 		if(qntPalavraUsadas == 10){
-			if(palavraDigitada == palavra[0]){
+			if(palavraDigitadaFinal === palavra[0]){
 				$.notify('Acertou!', 'success');
 				qntAcertos++;	
 				$('#qnt-acertos').text(qntAcertos);
@@ -70,7 +74,7 @@ $(function(){
 				qntPalavraUsadas++;
 			}
 		}
-		console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
+		//console.log('Qnt palavras usadas: ' + qntPalavraUsadas );
 	});
 
 	$('#respota-texto').on('keypress', function(e) {
@@ -134,7 +138,7 @@ function getPalavraAletoria() {
 
     if (numerosUtilizados.length < palavrasCombinadas.length) {
         numerosUtilizados.push(numeroSelecionado);
-        console.log('Numero Utilizado '+ numeroSelecionado);
+        //console.log('Numero Utilizado '+ numeroSelecionado);
         return palavrasCombinadas[numeroSelecionado];
     } else {
         return null; // Se não houver mais palavras disponíveis
@@ -149,12 +153,3 @@ function preencherDadosPalavras(palavra_){
 function getQntPalavrasUtilizadas(){
 	return numerosUtilizados.length;
 }
-
-
-
-
-
-
-
-
-
