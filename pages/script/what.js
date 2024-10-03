@@ -38,7 +38,7 @@ $(function(){
 		
 
 		if(qntPalavraUsadas == 10){
-			if(palavraFinal === palavra[0]){
+			if(palavraDigitada === palavra[0]){
 				$.notify('Acertou!', 'success');
 				qntAcertos++;	
 				$('#qnt-acertos').text(qntAcertos);
