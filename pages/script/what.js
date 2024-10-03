@@ -34,7 +34,7 @@ $(function(){
 	$('#enviar-resposta').click(function(){
 		let palavraDigitada = $('#respota-texto').val();
 		palavraDigitada = palavraDigitada.trim();
-		console.log(palavraDigitada);
+		palavraDigitada = palavraDigitada.toLowerCase();
 		
 
 		if(qntPalavraUsadas == 10){
